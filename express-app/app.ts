@@ -61,7 +61,7 @@ const restaurants:Restaurant[] = [
 export default restaurants;
 
 app.get('/restaurants', (req, res) => {
-  res.send({ restaurants });
+  res.status(200).send({ restaurants });
 });
 
 type Orders = {
@@ -71,7 +71,7 @@ type Orders = {
 
 app.post('/orders', (req, res) => {
   const { body }:{ body: Orders } = req;
-  res.send({
+  res.status(201).send({
     id: Date.now().toString(),
     order: body,
   });
