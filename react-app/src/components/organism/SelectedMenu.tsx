@@ -58,9 +58,7 @@ SelectedMenuProps) {
         ))}
       </ul>
       <button type="button" onClick={handleOrder}>
-        합계:
-        {totalPrice.toLocaleString('ko-kr')}
-        원 주문
+        {`합계: ${totalPrice.toLocaleString('ko-kr')}원 주문`}
       </button>
     </div>
   );

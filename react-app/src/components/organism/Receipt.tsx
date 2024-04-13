@@ -38,9 +38,7 @@ function Receipt({
 
         </ul>
         <p>
-          총 가격:
-          {receipt?.totalPrice.toLocaleString('ko-kr')}
-          원
+          {`총 가격: ${receipt?.totalPrice.toLocaleString('ko-kr')}원`}
         </p>
       </div>
     </div>
