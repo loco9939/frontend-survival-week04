@@ -23,7 +23,7 @@ function MenuItem({
         {price.toLocaleString('ko-kr')}
         원)
       </p>
-      <button type="button" onClick={onClickBtn}>{btnText}</button>
+      <button type="button" name={`#${name}`} onClick={onClickBtn}>{btnText}</button>
     </li>
   );
 }
