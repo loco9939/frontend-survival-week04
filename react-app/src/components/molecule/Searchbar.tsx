@@ -14,7 +14,7 @@ function Searchbar({
 
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setSearchText(value);
+    setSearchText(value.trim());
   };
   return (
     <div style={{ marginBlock: '16px' }}>

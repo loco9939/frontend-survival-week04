@@ -40,6 +40,7 @@ SelectedMenuProps) {
     });
     const { id, order } = await response.json();
     setReceipt({ id, ...order });
+    setSelectedMenu([]);
     showReceipt();
   };
   return (
