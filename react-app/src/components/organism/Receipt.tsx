@@ -1,5 +1,6 @@
 import { useInterval } from 'usehooks-ts';
 import { ReceiptType } from '../../types/receipt';
+import convertKRW from '../../utils/convertKRW';
 
 type ReceiptProps = {
   receipt:ReceiptType|null
@@ -16,7 +17,12 @@ function Receipt({
     hideReceipt();
   }, showReceiptState ? 5000 : null);
   return (
-    <div style={{ width: '500px', textAlign: 'center', border: '1px solid black' }}>
+    <div style={{
+      width: '500px',
+      textAlign: 'center',
+      border: '1px solid black',
+    }}
+    >
       <h2>영수증</h2>
 
       <div>
@@ -31,14 +37,14 @@ function Receipt({
             <li key={menu.id} style={{ marginBlock: '8px' }}>
               {menu.name}
               (
-              {menu.price.toLocaleString('ko-kr')}
+              {convertKRW(menu.price)}
               원)
             </li>
           ))}
 
         </ul>
         <p>
-          {`총 가격: ${receipt?.totalPrice.toLocaleString('ko-kr')}원`}
+          {`총 가격: ${convertKRW(receipt?.totalPrice ?? 0)}원`}
         </p>
       </div>
     </div>

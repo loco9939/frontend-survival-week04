@@ -1,5 +1,10 @@
+import useCreateOrder from '../../hooks/useCreateOrder';
 import { ReceiptType } from '../../types/receipt';
 import { MenuType } from '../../types/restaurant';
+import convertKRW from '../../utils/convertKRW';
+import filterMenuById from '../../utils/filterById';
+import getTotalPrice from '../../utils/getTotalPrice';
+
 import MenuItem from '../atom/MenuItem';
 
 type SelectedMenuProps = {
@@ -16,30 +21,22 @@ function SelectedMenu({
   showReceipt,
 }:
 SelectedMenuProps) {
-  const totalPrice = selectedMenu.reduce(
-    (acc:number, menu) => acc + menu.price
-    , 0,
-  );
+  const totalPrice = getTotalPrice(selectedMenu);
+
+  const { createOrder } = useCreateOrder();
 
   const cancelOrder = (id:string) => {
-    setSelectedMenu((prev) => {
-      const curr = prev.filter((menu) => menu.id !== id);
-      return curr;
-    });
+    setSelectedMenu((prevMenu) => filterMenuById(prevMenu, id));
   };
 
   const handleOrder = async () => {
-    const URL = 'http://localhost:3000/orders';
-    const body = { menu: selectedMenu, totalPrice };
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    const { id, order } = await response.json();
-    setReceipt({ id, ...order });
+    if (!selectedMenu.length) {
+      return;
+    }
+
+    const receipt = await createOrder(selectedMenu);
+
+    setReceipt(receipt);
     setSelectedMenu([]);
     showReceipt();
   };
@@ -58,7 +55,7 @@ SelectedMenuProps) {
         ))}
       </ul>
       <button type="button" onClick={handleOrder}>
-        {`합계: ${totalPrice.toLocaleString('ko-kr')}원 주문`}
+        {`합계: ${convertKRW(totalPrice)}원 주문`}
       </button>
     </div>
   );

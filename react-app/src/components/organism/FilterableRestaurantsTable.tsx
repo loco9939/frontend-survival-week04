@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import useFetchRestaurants from '../../hooks/useFetchRestaurants';
 import { Category } from '../../types/category';
-import { MenuType, Restaurant } from '../../types/restaurant';
+import { MenuType } from '../../types/restaurant';
+import filterRestaurants from '../../utils/filterRestaurants';
 import FilterCategory from '../molecule/FilterCategory';
 import Searchbar from '../molecule/Searchbar';
 import RestaurantTable from './RestaurantsTable';
@@ -11,31 +13,20 @@ type FilterableRestaurantsTableProps = {
 function FilterableRestaurantsTable({
   setSelectedMenu,
 }: FilterableRestaurantsTableProps) {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const categories:Category[] = ['전체', ...restaurants.map((res) => res.category)];
-
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<Category>('전체');
 
-  const filteredByCategoryRestaurants = selectedCategory === '전체'
-    ? restaurants
-    : restaurants.filter(
-      (restaurant) => restaurant.category === selectedCategory,
-    );
+  const restaurants = useFetchRestaurants();
 
-  const filteredByNameRestaurants = filteredByCategoryRestaurants.filter(
-    (restaurant) => restaurant.name.includes(searchText),
+  const categories:Category[] = [
+    '전체',
+    ...restaurants.map((res) => res.category),
+  ];
+
+  const filteredRestaurants = filterRestaurants(
+    restaurants,
+    { category: selectedCategory, searchText },
   );
-
-  useEffect(() => {
-    async function getRestaurants() {
-      const url = 'http://localhost:3000/restaurants';
-      const response = await fetch(url);
-      const data = await response.json();
-      setRestaurants(data.restaurants);
-    }
-    getRestaurants();
-  }, []);
 
   return (
     <>
@@ -53,7 +44,7 @@ function FilterableRestaurantsTable({
       />
 
       <RestaurantTable
-        restaurants={filteredByNameRestaurants}
+        restaurants={filteredRestaurants}
         setSelectedMenu={setSelectedMenu}
       />
     </>

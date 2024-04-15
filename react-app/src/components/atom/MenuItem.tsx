@@ -1,3 +1,5 @@
+import convertKRW from '../../utils/convertKRW';
+
 type MenuItemProps = {
   name:string;
   price:number;
@@ -20,10 +22,16 @@ function MenuItem({
       <p style={{ marginBlock: '8px' }}>
         {name}
         (
-        {price.toLocaleString('ko-kr')}
+        {convertKRW(price)}
         원)
       </p>
-      <button type="button" name={`#${name}`} onClick={onClickBtn}>{btnText}</button>
+      <button
+        type="button"
+        name={`#${name}`}
+        onClick={onClickBtn}
+      >
+        {btnText}
+      </button>
     </li>
   );
 }
