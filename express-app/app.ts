@@ -73,7 +73,7 @@ app.post('/orders', (req, res) => {
   const { body }:{ body: Orders } = req;
   res.status(201).send({
     id: Date.now().toString(),
-    order: body,
+    ...body,
   });
 });
 
