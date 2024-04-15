@@ -10,7 +10,6 @@ function FilterCategory({
   categories,
   selectedCategory,
   setSelectedCategory,
-
 }: FilterCategoryProps) {
   return (
     <div style={{ marginBlock: '16px' }}>

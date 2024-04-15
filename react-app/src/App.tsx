@@ -7,10 +7,18 @@ import { ReceiptType } from './types/receipt';
 import { MenuType } from './types/restaurant';
 
 export default function App() {
-  const { value: showReceiptState, setFalse: hideReceipt, setTrue: showReceipt } = useBoolean();
+  const [receipt, setReceipt] = useState<ReceiptType | null>(null);
 
-  const [selectedMenu, setSelectedMenu] = useLocalStorage<MenuType[]>('selectedMenu', []);
-  const [receipt, setReceipt] = useState<ReceiptType|null>(null);
+  const {
+    value: showReceiptState,
+    setFalse: hideReceipt,
+    setTrue: showReceipt,
+  } = useBoolean();
+
+  const [selectedMenu, setSelectedMenu] = useLocalStorage<MenuType[]>(
+    'selectedMenu',
+    [],
+  );
   return (
     <>
       <h1>푸드코트 키오스크</h1>
